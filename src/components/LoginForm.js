@@ -1,33 +1,35 @@
-import { Button, Form, Input, message } from 'antd';
-import React from 'react';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { login } from '../utils';
+import { Button, Form, Input, message } from "antd";
+import React from "react";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { login } from "../utils";
 
 class LoginForm extends React.Component {
   state = {
     loading: false,
-  }
+  };
 
   onFinish = (data) => {
     this.setState({
       loading: true,
-    })
+    });
     login(data)
       .then(() => {
         this.setState({
           displayModal: false,
-        })
+        });
         message.success(`Login Successful`);
         this.props.onSuccess();
-      }).catch((err) => {
+      })
+      .catch((err) => {
         message.error(err.message);
-      }).finally(() => {
+      })
+      .finally(() => {
         this.setState({
           loading: false,
-        })
-      })
-  }
- 
+        });
+      });
+  };
+
   render = () => {
     return (
       <Form
@@ -35,32 +37,30 @@ class LoginForm extends React.Component {
         onFinish={this.onFinish}
         style={{
           width: 300,
-          margin: 'auto'
+          margin: "auto",
         }}
       >
         <Form.Item
           name="username"
-          rules={[{ required: true, message: 'Please input your Username!' }]}
+          rules={[{ required: true, message: "Please input your Username!" }]}
         >
           <Input prefix={<UserOutlined />} placeholder="Username" />
         </Form.Item>
         <Form.Item
           name="password"
-          rules={[{ required: true, message: 'Please input your Password!' }]}
+          rules={[{ required: true, message: "Please input your Password!" }]}
         >
-          <Input
-            prefix={<LockOutlined />}
-            placeholder="Password"
-          />
+          <Input prefix={<LockOutlined />} placeholder="Password" />
         </Form.Item>
 
         <Form.Item>
           <Button type="primary" htmlType="submit" loading={this.state.loading}>
-            Login</Button>
+            Login
+          </Button>
         </Form.Item>
       </Form>
-    )
-  }
+    );
+  };
 }
- 
+
 export default LoginForm;

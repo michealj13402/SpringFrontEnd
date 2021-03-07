@@ -15,26 +15,31 @@ const MyCart = () => {
     }
 
     setLoading(true);
-    getCart().then((data) => {
-      setCartData(data);
-    }).catch((err) => {
-      message.error(err.message);
-    }).finally(() => {
-      setLoading(false);
-    })
-  }, [cartVisible])
+    getCart()
+      .then((data) => {
+        setCartData(data);
+      })
+      .catch((err) => {
+        message.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [cartVisible]);
 
   const onCloseDrawer = () => {
     setCartVisible(false);
-  }
+  };
 
   const onOpenDrawer = () => {
     setCartVisible(true);
-  }
+  };
 
   return (
     <>
-      <Button type="primary" shape="round" onClick={onOpenDrawer}>Cart</Button>
+      <Button type="primary" shape="round" onClick={onOpenDrawer}>
+        Cart
+      </Button>
       <Drawer
         title="My Shopping Cart"
         onClose={onCloseDrawer}
@@ -43,8 +48,8 @@ const MyCart = () => {
         footer={
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'space-between'
+              display: "flex",
+              justifyContent: "space-between",
             }}
           >
             <Text strong={true}>{`Total price: ${cartData?.totalPrice}`}</Text>
@@ -63,7 +68,7 @@ const MyCart = () => {
           loading={loading}
           itemLayout="horizontal"
           dataSource={cartData?.orderItemList}
-          renderItem={item => (
+          renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
                 title={item.menuItem.name}
@@ -74,7 +79,7 @@ const MyCart = () => {
         />
       </Drawer>
     </>
-  )
-}
+  );
+};
 
 export default MyCart;

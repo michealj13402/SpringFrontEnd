@@ -1,7 +1,7 @@
 import { Button, Card, List, message, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { addItemToCart, getMenus } from "../utils";
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from "@ant-design/icons";
 
 const AddToCartButton = ({ itemId }) => {
   const [loading, setLoading] = useState(false);
@@ -10,18 +10,23 @@ const AddToCartButton = ({ itemId }) => {
     setLoading(true);
     addItemToCart(itemId)
       .then(() => message.success(`Successfully add item`))
-      .catch(err => message.error(err.message))
+      .catch((err) => message.error(err.message))
       .finally(() => {
         setLoading(false);
-      })
-  }
+      });
+  };
 
   return (
     <Tooltip title="Add to shopping cart">
-      <Button loading={loading} type="primary" icon={<PlusOutlined/>} onClick={AddToCart} />
+      <Button
+        loading={loading}
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={AddToCart}
+      />
     </Tooltip>
-  )
-}
+  );
+};
 
 const FoodList = () => {
   const [foodData, setFoodData] = useState([]);
@@ -29,14 +34,17 @@ const FoodList = () => {
 
   useEffect(() => {
     setLoading(true);
-    getMenus().then((data) => {
-      setFoodData(data);
-    }).catch((err) => {
-      message.error(err.message);
-    }).finally(() => {
-      setLoading(false);
-    })
-  }, [])
+    getMenus()
+      .then((data) => {
+        setFoodData(data);
+      })
+      .catch((err) => {
+        message.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <List
@@ -51,17 +59,18 @@ const FoodList = () => {
         xxl: 3,
       }}
       dataSource={foodData}
-      renderItem={item => (
+      renderItem={(item) => (
         <List.Item>
-          <Card 
-            title={item.menu_item_name} 
-            extra={<AddToCartButton itemId={item.item_id} />}>
+          <Card
+            title={item.menu_item_name}
+            extra={<AddToCartButton itemId={item.item_id} />}
+          >
             {`Price: ${item.menu_item_price}`}
           </Card>
         </List.Item>
       )}
     />
-  )
-}
+  );
+};
 
 export default FoodList;
