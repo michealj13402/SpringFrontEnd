@@ -1,23 +1,28 @@
-import { Button, Drawer, List } from "antd";
-import { useState } from "react";
+import { Button, Drawer, List, message, Typography } from "antd";
+import { useEffect, useState } from "react";
+import { getCart } from "../utils";
 
-const mockData = [
-  {
-    title: 'Food1 - $1.75',
-  },
-  {
-    title: 'Food2 - $2.05',
-  },
-  {
-    title: 'Food3 - $3.25',
-  },
-  {
-    title: 'Food4 - $6.76',
-  },
-];
+const { Text } = Typography;
 
 const MyCart = () => {
   const [cartVisible, setCartVisible] = useState(false);
+  const [cartData, setCartData] = useState();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!cartVisible) {
+      return;
+    }
+
+    setLoading(true);
+    getCart().then((data) => {
+      setCartData(data);
+    }).catch((err) => {
+      message.error(err.message);
+    }).finally(() => {
+      setLoading(false);
+    })
+  }, [cartVisible])
 
   const onCloseDrawer = () => {
     setCartVisible(false);
@@ -38,30 +43,31 @@ const MyCart = () => {
         footer={
           <div
             style={{
-              textAlign: 'right',
+              display: 'flex',
+              justifyContent: 'space-between'
             }}
           >
-            <Button onClick={onCloseDrawer} style={{ marginRight: 8 }}>
-              Cancel
-            </Button>
-            <Button onClick={onCloseDrawer} type="primary">
-              Checkout
-            </Button>
+            <Text strong={true}>{`Total price: ${cartData?.totalPrice}`}</Text>
+            <div>
+              <Button onClick={onCloseDrawer} style={{ marginRight: 8 }}>
+                Cancel
+              </Button>
+              <Button onClick={onCloseDrawer} type="primary">
+                Checkout
+              </Button>
+            </div>
           </div>
         }
       >
         <List
+          loading={loading}
           itemLayout="horizontal"
-          dataSource={mockData}
+          dataSource={cartData?.orderItemList}
           renderItem={item => (
-            <List.Item
-              actions={[
-                <Button shape="round" danger>Delete</Button>
-              ]}
-            >
+            <List.Item>
               <List.Item.Meta
-                title={<a href="https://ant.design">{item.title}</a>}
-                description="Really Good Food"
+                title={item.menuItem.name}
+                description={`${item.price} * ${item.quantity}`}
               />
             </List.Item>
           )}
