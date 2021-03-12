@@ -1,6 +1,6 @@
 import { Button, Drawer, List, message, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { getCart } from "../utils";
+import { checkout, getCart } from "../utils";
 
 const { Text } = Typography;
 
@@ -8,6 +8,7 @@ const MyCart = () => {
   const [cartVisible, setCartVisible] = useState(false);
   const [cartData, setCartData] = useState();
   const [loading, setLoading] = useState(false);
+  const [checking, setChecking] = useState(false);
 
   useEffect(() => {
     if (!cartVisible) {
@@ -26,6 +27,21 @@ const MyCart = () => {
         setLoading(false);
       });
   }, [cartVisible]);
+
+  const onCheckOut = () => {
+    setChecking(true);
+    checkout()
+      .then(() => {
+        message.success("Successfully checkout");
+        setCartVisible(false);
+      })
+      .catch((err) => {
+        message.error(err.message);
+      })
+      .finally(() => {
+        setChecking(false);
+      });
+  };
 
   const onCloseDrawer = () => {
     setCartVisible(false);
@@ -57,7 +73,12 @@ const MyCart = () => {
               <Button onClick={onCloseDrawer} style={{ marginRight: 8 }}>
                 Cancel
               </Button>
-              <Button onClick={onCloseDrawer} type="primary">
+              <Button
+                onClick={onCheckOut}
+                type="primary"
+                loading={checking}
+                disabled={loading || cartData?.orderItemList.length === 0}
+              >
                 Checkout
               </Button>
             </div>
