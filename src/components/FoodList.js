@@ -91,7 +91,7 @@ const FoodList = () => {
             sm: 2,
             md: 4,
             lg: 4,
-            xl: 6,
+            xl: 3,
             xxl: 3,
           }}
           dataSource={foodData}
