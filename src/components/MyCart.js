@@ -68,7 +68,7 @@ const MyCart = () => {
               justifyContent: "space-between",
             }}
           >
-            <Text strong={true}>{`Total price: ${cartData?.totalPrice}`}</Text>
+            <Text strong={true}>{`Total price: $${cartData?.totalPrice}`}</Text>
             <div>
               <Button onClick={onCloseDrawer} style={{ marginRight: 8 }}>
                 Cancel
@@ -93,7 +93,7 @@ const MyCart = () => {
             <List.Item>
               <List.Item.Meta
                 title={item.menuItem.name}
-                description={`${item.price} * ${item.quantity}`}
+                description={`$${item.price}`}
               />
             </List.Item>
           )}

@@ -50,7 +50,7 @@ class LoginForm extends React.Component {
           name="password"
           rules={[{ required: true, message: "Please input your Password!" }]}
         >
-          <Input prefix={<LockOutlined />} placeholder="Password" />
+          <Input.Password prefix={<LockOutlined />} placeholder="Password" />
         </Form.Item>
 
         <Form.Item>
