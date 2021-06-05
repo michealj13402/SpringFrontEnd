@@ -8,7 +8,7 @@ export const login = (credential) => {
     },
     credentials: "include",
   }).then((response) => {
-    if (response.status !== 200) {
+    if (response.status < 200 || response.status >= 300) {
       throw Error("Fail to log in");
     }
   });
@@ -16,7 +16,7 @@ export const login = (credential) => {
 
 export const getMenus = (restId) => {
   return fetch(`/menus/${restId}`).then((response) => {
-    if (response.status !== 200) {
+    if (response.status < 200 || response.status >= 300) {
       throw Error("Fail to get menus");
     }
 
@@ -26,7 +26,7 @@ export const getMenus = (restId) => {
 
 export const getRestaurants = () => {
   return fetch("/restaurants").then((response) => {
-    if (response.status !== 200) {
+    if (response.status < 200 || response.status >= 300) {
       throw Error("Fail to get restaurants");
     }
 
@@ -36,7 +36,7 @@ export const getRestaurants = () => {
 
 export const getCart = () => {
   return fetch("/cart").then((response) => {
-    if (response.status !== 200) {
+    if (response.status < 200 || response.status >= 300) {
       throw Error("Fail to get shopping cart data");
     }
 
@@ -46,7 +46,7 @@ export const getCart = () => {
 
 export const checkout = () => {
   return fetch("/checkout").then((response) => {
-    if (response.status !== 200) {
+    if (response.status < 200 || response.status >= 300) {
       throw Error("Fail to checkout");
     }
   });
@@ -60,7 +60,7 @@ export const addItemToCart = (itemId) => {
     },
     credentials: "include",
   }).then((response) => {
-    if (response.status !== 200) {
+    if (response.status < 200 || response.status >= 300) {
       throw Error("Fail to add menu item to shopping cart");
     }
   });
