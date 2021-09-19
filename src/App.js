@@ -4,6 +4,7 @@ import "./App.css";
 import FoodList from "./components/FoodList";
 import LoginForm from "./components/LoginForm";
 import MyCart from "./components/MyCart";
+import SignupForm from "./components/SignupForm";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -21,11 +22,7 @@ function App() {
           >
             Lai Food
           </Title>
-          {authed && (
-            <div>
-              <MyCart />
-            </div>
-          )}
+          <div>{authed ? <MyCart /> : <SignupForm />}</div>
         </div>
       </Header>
       <Content
